@@ -214,7 +214,7 @@ sklearn.ensemble.GradientBoostingClassifier(loss='deviance'
                                            ,verbose=0
                                            ,max_leaf_nodes=None
                                            ,warm_start=False)
-#使用情况
+#使用情况1
 from sklearn.datasets import make_hastie_10_2
 from sklearn.ensemble import GradientBoostingClassifier
 X,y = make_hastie_10_2(random_state=0)
@@ -222,6 +222,31 @@ X_train, X_test = X[:2000],X[2000:]
 y_train, y_test = y[:2000],y[2000:]
 clf = GradientBoostingClassifier(n_estimators=100,learning_rate=1.0,max_depth=1,random_state=0).fit(X_train,y_train)
 clf.score(X_test, y_test)
+#使用情况2
+from sklearn.ensemble import GradientBoostingClassifier
+gbdt = GradientBoostingClassifier()
+gbdt.fit(X_train, y_train)
+print gbdt.feature_importances_
+print gbdt.feature_importances_.shape
+y_pred = gbdt.predict(X_test)
+#根据重要性保留部分特征
+
+X_train_new = X_train[:, feature_importances>0]
+print X_train_new.shape
+X_test_new = X_test[:, feature_importances>0]
+print X_test_new.shape
+#7.5使用多项式贝叶斯
+from sklearn.naive_bayes import MultinomialNB
+bayes = MultinomialNB()
+bayes.fit(X_train, y_train)
+y_pred = bayes.predict(X_test)
+#7.6使用伯努利贝叶斯
+from sklearn.naive_bayes import BernoulliNB
+bayes_nb = BernoulliNB()
+bayes_nb.fit(X_train, y_train)
+y_pred = bayes_nb.predict(X_test)
+
+
 
 
 
